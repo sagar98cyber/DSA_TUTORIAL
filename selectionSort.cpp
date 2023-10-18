@@ -5,7 +5,7 @@ using namespace std;
 //      SELECTION SORT
 
 int arr[] = {10,6,2,5,7,1,6};
-int arr[] = {9, 4, 7, 6, 3, 1, 5};
+// int arr[] = {9, 4, 7, 6, 3, 1, 5};
 int main(){
 
 int len = sizeof(arr) / sizeof(arr[0]);

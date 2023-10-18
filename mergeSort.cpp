@@ -2,6 +2,10 @@
 
 using namespace std;
 
+int arr[] = {10, 5, 7, 8, 2};
+
+int len = sizeof(arr) / sizeof(arr[0]);
+
 //        MERGE SORT
 
 void merge(int arr[],int low,int mid, int high){
