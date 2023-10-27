@@ -35,14 +35,14 @@ void generateAllBinaryStrings(int n, int arr[], int i)
     // First assign "0" at ith position
     // and try for all other permutations
     // for remaining positions
-    cout<<"In Recurssion1 : "<<n<<"----"<<i<<endl;
+    // cout<<"In Recurssion1 : "<<n<<"----"<<i<<endl;
     arr[i] = 0;
     generateAllBinaryStrings(n, arr, i + 1);
 
     // And then assign "1" at ith position
     // and try for all other permutations
     // for remaining positions
-    cout << "In Recurssion2 : " << n<< "----" << i << endl;
+    // cout << "In Recurssion2 : " << n<< "----" << i << endl;
     arr[i] = 1;
     generateAllBinaryStrings(n, arr, i + 1);
 }
