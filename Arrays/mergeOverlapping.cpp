@@ -75,6 +75,8 @@ vector<vector<int>> mergeOverlappingIntervals(vector<vector<int>> &arr)
             ans.back()[1] = max(ans.back()[1], arr[i][1]);
         }
     }
+
+    pritnArray(ans);
 }
 
 
