@@ -14,8 +14,10 @@ using namespace std;
 //// -------    = 10
 ///// 2*1
 
+///////////////////////////  n-ROW , r-COLUMN
 void generateAtPosition___NcR(int n, int r)
 {
+    //  ROW ---- n,   COLUMN ---- r
     long long ans = 1;
     for(int i=1;i<=r;i++)
     {
@@ -66,8 +68,8 @@ int main()
 
     ///////////  Generate a specific position
 
-    int row = 5, col = 0;
-    generateAtPosition___NcR(row,col);
+    // int row = 5, col = 0;
+    // generateAtPosition___NcR(row,col);
 
     int n = 4;
 
@@ -79,13 +81,13 @@ int main()
         cout<<temp[i]<<"  ";
     }
 
-    //////////////   GENERATING THE ENTIRE PASCAL's TRIANGLE
-    vector<vector<int>> result;
-    for(int i=1; i<=5; i++)
-    {
-        // cout<<"i: "<<i<<endl;
-        result.push_back(generate(i));
-    }
+    // //////////////   GENERATING THE ENTIRE PASCAL's TRIANGLE
+    // vector<vector<int>> result;
+    // for(int i=1; i<=5; i++)
+    // {
+    //     // cout<<"i: "<<i<<endl;
+    //     result.push_back(generate(i));
+    // }
 
-    printVector(result);
+    // printVector(result);
 }
