@@ -32,7 +32,7 @@ vector<int> findMissingRepeatingNumbers(vector<int> a)
     // return a;
 }
 
-
+ 
 int main()
 {
     vector<int> nums = { 1, 2, 3, 2 };
