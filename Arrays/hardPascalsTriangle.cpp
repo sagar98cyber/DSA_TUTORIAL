@@ -46,7 +46,7 @@ void printVector(vector<vector<int>>& result)
 
 //////////    GENERATE THE ENTIRE ROW IN A PASCAL's TRIANGLE
 
-vector<int> generate(int n)
+vector<int> generateRow(int n)
 {
     vector<int> result;
     long long ans=1;
@@ -75,7 +75,7 @@ int main()
 
     //////////////   GENERATING THE ENTIRE TRIANGLE's ROW
     vector<int> temp;
-    temp = generate(n);
+    temp = generateRow(n);
     for(int i=0; i<temp.size(); i++)
     {
         cout<<temp[i]<<"  ";
@@ -83,10 +83,10 @@ int main()
 
     // //////////////   GENERATING THE ENTIRE PASCAL's TRIANGLE
     // vector<vector<int>> result;
-    // for(int i=1; i<=5; i++)
+    // for(int i=1; i<=n; i++)
     // {
     //     // cout<<"i: "<<i<<endl;
-    //     result.push_back(generate(i));
+    //     result.push_back(generateRow(i));
     // }
 
     // printVector(result);
