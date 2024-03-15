@@ -104,7 +104,7 @@ void deleteAtK(Node *head, int k)
     }
 }
 
-Node* reverseLL(Node* head)
+Node *reverseLL(Node *head)
 // void reverseLL(Node *head)
 {
     Node *current = head;
@@ -158,7 +158,7 @@ int main()
 
     // traverseThroughLLAndReturnTail(head);
 
-    head=reverseLL(head);
+    head = reverseLL(head);
     // reverseLL(head);
 
     traverseThroughLLAndReturnTail(head);

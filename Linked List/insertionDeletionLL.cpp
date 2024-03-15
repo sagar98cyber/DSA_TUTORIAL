@@ -31,23 +31,23 @@ void traverseThroughLL(Node *head)
     }
 }
 
-Node* deleteAtHead(Node* head)
+Node *deleteAtHead(Node *head)
 {
-    cout<<"After deleting the head of the LL: "<<endl;
-    Node* temp = head->next;
+    cout << "After deleting the head of the LL: " << endl;
+    Node *temp = head->next;
     free(head);
     return temp;
 }
 
-Node* deleteTheTailOfLL(Node* head)
+Node *deleteTheTailOfLL(Node *head)
 {
     cout << "After deleting the tail of the LL: " << endl;
-    if(head == NULL || head->next == NULL)
+    if (head == NULL || head->next == NULL)
     {
         return NULL;
     }
-    Node* temp = head;
-    while(temp->next->next != NULL)
+    Node *temp = head;
+    while (temp->next->next != NULL)
     {
         temp = temp->next;
     }
@@ -57,50 +57,49 @@ Node* deleteTheTailOfLL(Node* head)
     return head;
 }
 
-Node* deleteKthElementOfLL(Node* head, int k)
+Node *deleteKthElementOfLL(Node *head, int k)
 {
-    int i=1;
+    int i = 1;
 
-    Node* temp = head;
+    Node *temp = head;
     // cout << "After deleting the Kth Element of the LL: " << endl;
-    
+
     if (head == NULL)
     {
         // cout << "GIVEN LL is empty" << endl;
         return NULL;
     }
-    else if(k == 1)
+    else if (k == 1)
     {
         // cout << "DELETING THE HEAD" << endl;
 
-        Node* temp = head->next;
+        Node *temp = head->next;
         free(head);
         return temp;
     }
-    else if(head->next == NULL && k>1)
+    else if (head->next == NULL && k > 1)
     {
         // cout << "ONLY ONE ELEMENT IN THE LL and the INDEX GREATER THAN K"<<endl;
         return head;
     }
-    
 
     // cout << "Executing Default" << endl;
-    
-    Node* prev = head;
+
+    Node *prev = head;
     temp = temp->next;
 
     // DEFAULT CONDITION
-    while(i<=k && temp)
+    while (i <= k && temp)
     {
-        cout<<"inside while  "<<i<<"  " << k <<endl;
-        if( i != k-1)
+        cout << "inside while  " << i << "  " << k << endl;
+        if (i != k - 1)
         {
             ++i;
-            prev=prev->next;
+            prev = prev->next;
             temp = temp->next;
         }
 
-        if(i == k-1 )
+        if (i == k - 1)
         {
             prev->next = temp->next;
             free(temp);
@@ -120,8 +119,8 @@ Node* deleteKthElementOfLL(Node* head, int k)
     //     {
     //         Node* t2 = temp;
 
-    //         Node *t3 = temp->next->next; //  This is an EDGE CASE and a reason why this does not work. 
-    //         // TRY vector<int> a = {1, 4}; & head = deleteKthElementOfLL(head,4); in the INT MAIN() 
+    //         Node *t3 = temp->next->next; //  This is an EDGE CASE and a reason why this does not work.
+    //         // TRY vector<int> a = {1, 4}; & head = deleteKthElementOfLL(head,4); in the INT MAIN()
     //         // t3 cannot get next of next
     //         // Because of that the whole loop is wrong
     //         free(temp->next);
@@ -129,7 +128,7 @@ Node* deleteKthElementOfLL(Node* head, int k)
     //         break;
     //     }
     // }
-    cout<<"Returning the Head Default";
+    cout << "Returning the Head Default";
     return head;
 }
 
@@ -159,7 +158,7 @@ Node *deleteValFromLL(Node *head, int val)
         free(head);
         return prev;
     }
-    else if(temp->data == val)
+    else if (temp->data == val)
     {
         head = head->next;
         free(temp);
@@ -171,8 +170,8 @@ Node *deleteValFromLL(Node *head, int val)
     Node *p1 = prev;
     while (temp)
     {
-        cout<<"Inside WHILE"<<endl;   
-        if(temp->data == val)
+        cout << "Inside WHILE" << endl;
+        if (temp->data == val)
         {
             prev->next = temp->next;
             Node *p1 = temp;
@@ -189,38 +188,36 @@ Node *deleteValFromLL(Node *head, int val)
 }
 
 int main()
+{
+    vector<int> a = {1, 4, 6, 8, 9, 4, 2, 1, 8, 0, 9, 4, 4};
+    // vector<int> a = {1, 4};
+    // vector<int> a = {1};
+
+    Node *head = new Node(a[0]);
+    Node *temp = head;
+    for (int i = 1; i < a.size(); i++)
     {
-        vector<int> a = {1, 4, 6, 8, 9, 4, 2, 1, 8, 0, 9, 4, 4};
-        // vector<int> a = {1, 4};
-        // vector<int> a = {1};
-
-        Node *head = new Node(a[0]);
-        Node *temp = head;
-        for (int i = 1; i < a.size(); i++)
-        {
-            Node *x = new Node(a[i]);
-            temp->next = x;
-            temp = temp->next;
-        }
-        traverseThroughLL(head);
-
-        // head = deleteAtHead(head);
-
-        // traverseThroughLL(head);
-
-        // head = deleteTheTailOfLL(head);
-
-        // traverseThroughLL(head);
-
-        // head = deleteKthElementOfLL(head,4);
-
-        // traverseThroughLL(head);
-        
-        head = deleteValFromLL(head,3);
-
-        traverseThroughLL(head);
-
-
-        /*  IF I CAN DO DELETION I CAN DO INSERTION, I DO NOT NEED TO STUDY THAT! */
-
+        Node *x = new Node(a[i]);
+        temp->next = x;
+        temp = temp->next;
     }
+    traverseThroughLL(head);
+
+    // head = deleteAtHead(head);
+
+    // traverseThroughLL(head);
+
+    // head = deleteTheTailOfLL(head);
+
+    // traverseThroughLL(head);
+
+    // head = deleteKthElementOfLL(head,4);
+
+    // traverseThroughLL(head);
+
+    head = deleteValFromLL(head, 3);
+
+    traverseThroughLL(head);
+
+    /*  IF I CAN DO DELETION I CAN DO INSERTION, I DO NOT NEED TO STUDY THAT! */
+}
