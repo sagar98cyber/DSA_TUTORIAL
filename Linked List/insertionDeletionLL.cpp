@@ -1,28 +1,28 @@
 #include <bits/stdc++.h>
 using namespace std;
 
-class Node
+class ListNode
 {
 public:
     int data;
-    Node *next;
+    ListNode *next;
 
-    Node(int data1, Node *next1)
+    ListNode(int data1, ListNode *next1)
     {
         data = data1;
         next = next1;
     }
 
-    Node(int data1)
+    ListNode(int data1)
     {
         data = data1;
         next = nullptr;
     }
 };
 
-void traverseThroughLL(Node *head)
+void traverseThroughLL(ListNode *head)
 {
-    Node *temp = head;
+    ListNode *temp = head;
     cout << "Traversing through the LL:  " << endl;
     while (temp)
     {
@@ -31,22 +31,22 @@ void traverseThroughLL(Node *head)
     }
 }
 
-Node *deleteAtHead(Node *head)
+ListNode *deleteAtHead(ListNode *head)
 {
     cout << "After deleting the head of the LL: " << endl;
-    Node *temp = head->next;
+    ListNode *temp = head->next;
     free(head);
     return temp;
 }
 
-Node *deleteTheTailOfLL(Node *head)
+ListNode *deleteTheTailOfLL(ListNode *head)
 {
     cout << "After deleting the tail of the LL: " << endl;
     if (head == NULL || head->next == NULL)
     {
         return NULL;
     }
-    Node *temp = head;
+    ListNode *temp = head;
     while (temp->next->next != NULL)
     {
         temp = temp->next;
@@ -57,11 +57,11 @@ Node *deleteTheTailOfLL(Node *head)
     return head;
 }
 
-Node *deleteKthElementOfLL(Node *head, int k)
+ListNode *deleteKthElementOfLL(ListNode *head, int k)
 {
     int i = 1;
 
-    Node *temp = head;
+    ListNode *temp = head;
     // cout << "After deleting the Kth Element of the LL: " << endl;
 
     if (head == NULL)
@@ -73,7 +73,7 @@ Node *deleteKthElementOfLL(Node *head, int k)
     {
         // cout << "DELETING THE HEAD" << endl;
 
-        Node *temp = head->next;
+        ListNode *temp = head->next;
         free(head);
         return temp;
     }
@@ -85,7 +85,7 @@ Node *deleteKthElementOfLL(Node *head, int k)
 
     // cout << "Executing Default" << endl;
 
-    Node *prev = head;
+    ListNode *prev = head;
     temp = temp->next;
 
     // DEFAULT CONDITION
@@ -132,11 +132,11 @@ Node *deleteKthElementOfLL(Node *head, int k)
     return head;
 }
 
-Node *deleteValFromLL(Node *head, int val)
+ListNode *deleteValFromLL(ListNode *head, int val)
 {
 
-    Node *prev = NULL;
-    Node *temp = head;
+    ListNode *prev = NULL;
+    ListNode *temp = head;
     // cout << "After deleting the Kth Element of the LL: " << endl;
 
     if (head->data == NULL)
@@ -167,14 +167,14 @@ Node *deleteValFromLL(Node *head, int val)
 
     prev = temp;
     temp = temp->next;
-    Node *p1 = prev;
+    ListNode *p1 = prev;
     while (temp)
     {
         cout << "Inside WHILE" << endl;
         if (temp->data == val)
         {
             prev->next = temp->next;
-            Node *p1 = temp;
+            ListNode *p1 = temp;
             temp = temp->next;
             free(p1);
         }
@@ -193,11 +193,11 @@ int main()
     // vector<int> a = {1, 4};
     // vector<int> a = {1};
 
-    Node *head = new Node(a[0]);
-    Node *temp = head;
+    ListNode *head = new ListNode(a[0]);
+    ListNode *temp = head;
     for (int i = 1; i < a.size(); i++)
     {
-        Node *x = new Node(a[i]);
+        ListNode *x = new ListNode(a[i]);
         temp->next = x;
         temp = temp->next;
     }

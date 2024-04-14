@@ -8,58 +8,64 @@ int len = sizeof(arr) / sizeof(arr[0]);
 
 //        MERGE SORT
 
-void merge(int arr[],int low,int mid, int high){
+void merge(int arr[], int low, int mid, int high)
+{
 
   vector<int> temp;
 
   int left = low;
-  int right = mid+1;
+  int right = mid + 1;
 
   // std::cout << "The Next Low 1:  " << low << "  and high:  " << mid << endl;
   // std::cout << "The Next Low 2:  " << mid + 1 << "  and high:  " << high << endl;
 
   while (left <= mid && right <= high)
   {
-    if (arr[left] <= arr[right]){
+    if (arr[left] <= arr[right])
+    {
       // cout << "Adding to the temp:" << arr[i] << endl;
       temp.push_back(arr[left]);
       left++;
     }
-    else{
+    else
+    {
       // cout << "Adding to the temp:" << arr[j] << endl;
       temp.push_back(arr[right]);
       right++;
-      }
-    }
-    while (left <= mid)
-    {
-      /* code */
-      temp.push_back(arr[left]);
-      left++;
-    }
-
-    while (right <= high)
-    {
-      /* code */
-      temp.push_back(arr[right]);
-      right++;
-    }
-
-    for (int i = low; i <= high; i++)
-    {
-      arr[i] = temp[i - low];
     }
   }
 
-void mergeSort(int arr[],int low, int high){
+  while (left <= mid)
+  {
+    /* code */
+    temp.push_back(arr[left]);
+    left++;
+  }
 
-  int mid = (high+low)/2;
+  while (right <= high)
+  {
+    /* code */
+    temp.push_back(arr[right]);
+    right++;
+  }
 
-    /////////////////  ONLY WAY TO CALCULATE THE MID
+  for (int i = low; i <= high; i++)
+  {
+    arr[i] = temp[i - low];
+  }
+}
 
-    //   int mid = (((high-low)/2)+low);
+void mergeSort(int arr[], int low, int high)
+{
 
-  if(low>=high){
+  int mid = (high + low) / 2;
+
+  /////////////////  ONLY WAY TO CALCULATE THE MID
+
+  //   int mid = (((high-low)/2)+low);
+
+  if (low >= high)
+  {
     return;
   }
 
@@ -73,24 +79,23 @@ void mergeSort(int arr[],int low, int high){
   */
 
   // cout<<"The Current Low:  "<<low<<"  and high:  "<<high<<endl;
-
   // cout << "The Next Low 1:  " << low << "  and high:  " << mid << endl;
   // cout << "The Next Low 2:  " << mid+1 << "  and high:  " << high << endl;
 
   mergeSort(arr, low, mid);
-  mergeSort(arr,mid+1,high);
-  merge(arr,low,mid,high);
+  mergeSort(arr, mid + 1, high);
+  merge(arr, low, mid, high);
 }
 
-int main(){
+int main()
+{
   // cout<<"-----"<<len;
-  mergeSort(arr,0,(len-1));
+  mergeSort(arr, 0, (len - 1));
 
-  for(int i=0;i<len;i++ ){
-    cout<<arr[i]<<",    ";
+  for (int i = 0; i < len; i++)
+  {
+    cout << arr[i] << ",    ";
   }
 
   return 0;
-
 }
-

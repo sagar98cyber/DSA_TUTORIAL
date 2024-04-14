@@ -2,113 +2,193 @@
 using namespace std;
 
 ///////// SORT A LINKED LIST --- MERGE SORT
-class Node
+// class ListNode
+// {
+// public:
+//     int data;
+//     ListNode *next;
+// };
+
+// ListNode *SortedMerge(ListNode *a, ListNode *b);
+
+// void FrontBackSplit(ListNode *source, ListNode **frontRef, ListNode **backRef);
+
+// void MergeSort(ListNode **headRef)
+// {
+//     ListNode *head = *headRef;
+//     ListNode *a;
+//     ListNode *b;
+
+//     if ((head == NULL) || (head->next == NULL))
+//     {
+//         return;
+//     }
+
+//     FrontBackSplit(head, &a, &b);
+
+//     MergeSort(&a);
+//     MergeSort(&b);
+
+//     *headRef = SortedMerge(a, b);
+// }
+
+// ListNode *SortedMerge(ListNode *a, ListNode *b)
+// {
+//     ListNode *result = NULL;
+
+//     if (a == NULL)
+//         return (b);
+//     else if (b == NULL)
+//         return (a);
+
+//     if (a->data <= b->data)
+//     {
+//         result = a;
+//         result->next = SortedMerge(a->next, b);
+//     }
+//     else
+//     {
+//         result = b;
+//         result->next = SortedMerge(a, b->next);
+//     }
+//     return (result);
+// }
+
+// void FrontBackSplit(ListNode *source, ListNode **frontRef, ListNode **backRef)
+// {
+//     ListNode *fast;
+//     ListNode *slow;
+//     slow = source;
+//     fast = source->next;
+
+//     while (fast != NULL)
+//     {
+//         fast = fast->next;
+//         if (fast != NULL)
+//         {
+//             slow = slow->next;
+//             fast = fast->next;
+//         }
+//     }
+
+//     *frontRef = source;
+//     *backRef = slow->next;
+//     slow->next = NULL;
+// }
+
+// void printList(ListNode *node)
+// {
+//     while (node != NULL)
+//     {
+//         cout << node->data << " ";
+//         node = node->next;
+//     }
+// }
+
+// void push(ListNode **head_ref, int new_data)
+// {
+//     ListNode *new_node = new ListNode();
+//     new_node->data = new_data;
+//     new_node->next = (*head_ref);
+//     (*head_ref) = new_node;
+// }
+
+// int main()
+// {
+//     ListNode *res = NULL;
+//     ListNode *a = NULL;
+
+//     push(&a, 15);
+//     push(&a, 10);
+//     push(&a, 5);
+//     push(&a, 20);
+//     push(&a, 3);
+//     push(&a, 2);
+
+//     MergeSort(&a);
+
+//     cout << "Sorted Linked List is: \n";
+//     printList(a);
+
+//     return 0;
+// }
+
+struct Node
 {
-public:
     int data;
     Node *next;
 };
 
-Node *SortedMerge(Node *a, Node *b);
-
-void FrontBackSplit(Node *source, Node **frontRef, Node **backRef);
-
-void MergeSort(Node **headRef)
+Node *merge(Node *left, Node *right)
 {
-    Node *head = *headRef;
-    Node *a;
-    Node *b;
+    Node *dummy = new Node();
+    Node *tail = dummy;
 
-    if ((head == NULL) || (head->next == NULL))
+    while (left && right)
     {
-        return;
+        if (left->data < right->data)
+        {
+            tail->next = left;
+            left = left->next;
+        }
+        else
+        {
+            tail->next = right;
+            right = right->next;
+        }
+        tail = tail->next;
     }
 
-    FrontBackSplit(head, &a, &b);
-
-    MergeSort(&a);
-    MergeSort(&b);
-
-    *headRef = SortedMerge(a, b);
-}
-
-Node *SortedMerge(Node *a, Node *b)
-{
-    Node *result = NULL;
-
-    if (a == NULL)
-        return (b);
-    else if (b == NULL)
-        return (a);
-
-    if (a->data <= b->data)
+    if (left)
     {
-        result = a;
-        result->next = SortedMerge(a->next, b);
+        tail->next = left;
     }
     else
     {
-        result = b;
-        result->next = SortedMerge(a, b->next);
+        tail->next = right;
     }
-    return (result);
+
+    return dummy->next;
 }
 
-void FrontBackSplit(Node *source, Node **frontRef, Node **backRef)
+Node *mergeSort(Node *head)
 {
-    Node *fast;
-    Node *slow;
-    slow = source;
-    fast = source->next;
-
-    while (fast != NULL)
+    if (!head || !head->next)
     {
-        fast = fast->next;
-        if (fast != NULL)
-        {
-            slow = slow->next;
-            fast = fast->next;
-        }
+        return head;
     }
 
-    *frontRef = source;
-    *backRef = slow->next;
-    slow->next = NULL;
-}
+    Node *slow = head;
+    Node *fast = head->next;
 
-void printList(Node *node)
-{
-    while (node != NULL)
+    while (fast && fast->next)
     {
-        cout << node->data << " ";
-        node = node->next;
+        slow = slow->next;
+        fast = fast->next->next;
     }
-}
 
-void push(Node **head_ref, int new_data)
-{
-    Node *new_node = new Node();
-    new_node->data = new_data;
-    new_node->next = (*head_ref);
-    (*head_ref) = new_node;
+    Node *right = mergeSort(slow->next);
+    slow->next = nullptr;
+    Node *left = mergeSort(head);
+
+    return merge(left, right);
 }
 
 int main()
 {
-    Node *res = NULL;
-    Node *a = NULL;
+    Node *head = new Node{1};
+    head->next = new Node{3};
+    head->next->next = new Node{2};
 
-    push(&a, 15);
-    push(&a, 10);
-    push(&a, 5);
-    push(&a, 20);
-    push(&a, 3);
-    push(&a, 2);
+    head = mergeSort(head);
 
-    MergeSort(&a);
+    while (head)
+    {
+        std::cout << head->data << " ";
+        head = head->next;
+    }
 
-    cout << "Sorted Linked List is: \n";
-    printList(a);
+    std::cout << std::endl;
 
     return 0;
 }

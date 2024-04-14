@@ -1,30 +1,30 @@
 #include <bits/stdc++.h>
 using namespace std;
 
-class Node
+class ListNode
 {
 public:
     int val;
-    Node *next;
+    ListNode *next;
 
-    Node(int d, Node *n)
+    ListNode(int d, ListNode *n)
     {
         val = d;
         next = n;
     }
 
-    Node(int d)
+    ListNode(int d)
     {
         val = d;
         next = nullptr;
     }
 };
 
-Node *add1(Node *head)
+ListNode *add1(ListNode *head)
 {
     int carry = 1;
-    Node *temp = head;
-    Node *prev = NULL;
+    ListNode *temp = head;
+    ListNode *prev = NULL;
     while (temp != NULL && carry == 1)
     {
         temp->val = temp->val + 1;
@@ -46,20 +46,20 @@ Node *add1(Node *head)
     // cout<<After
     if (carry == 1)
     {
-        Node *n = new Node(1);
+        ListNode *n = new ListNode(1);
         prev->next = n;
     }
     return head;
 }
 
-Node *revereseLL(Node *head)
+ListNode *revereseLL(ListNode *head)
 {
 
-    Node *curr = head;
-    Node *prev = NULL;
+    ListNode *curr = head;
+    ListNode *prev = NULL;
     while (curr != NULL)
     {
-        Node *next = curr->next;
+        ListNode *next = curr->next;
         curr->next = prev;
         prev = curr;
         curr = next;
@@ -67,9 +67,9 @@ Node *revereseLL(Node *head)
     return prev;
 }
 
-void traverseLL(Node *head)
+void traverseLL(ListNode *head)
 {
-    Node *temp = head;
+    ListNode *temp = head;
 
     cout << "Traversing through the LL!" << endl;
 
@@ -81,7 +81,7 @@ void traverseLL(Node *head)
     cout << endl;
 }
 
-void OOf3NSoln(Node *head)
+void OOf3NSoln(ListNode *head)
 {
     cout << "Reversing the LL!" << endl;
     head = revereseLL(head);
@@ -95,7 +95,7 @@ void OOf3NSoln(Node *head)
     traverseLL(head);
 }
 
-int helperFunc(Node *temp)
+int helperFunc(ListNode *temp)
 {
 
     if (temp == NULL)
@@ -121,13 +121,13 @@ int helperFunc(Node *temp)
     return 1;
 }
 
-Node *NSoln(Node *head)
+ListNode *NSoln(ListNode *head)
 {
     int carry = helperFunc(head);
 
     if (carry == 1)
     {
-        Node *o = new Node(1);
+        ListNode *o = new ListNode(1);
         o->next = head;
         return o;
     }
@@ -137,7 +137,7 @@ Node *NSoln(Node *head)
 
 int main()
 {
-    Node *head = new Node(9);
+    ListNode *head = new ListNode(9);
 
     vector<int> a;
     a = {1, 3, 5, 7, 8, 0, 10, 11};
@@ -148,11 +148,11 @@ int main()
     // a = {8, 9, 2};
     a = {8, 1, 9};
 
-    Node *temp = head;
+    ListNode *temp = head;
 
     for (int i = 0; i < a.size(); i++)
     {
-        Node *n = new Node(a[i]);
+        ListNode *n = new ListNode(a[i]);
         temp->next = n;
         temp = temp->next;
     }

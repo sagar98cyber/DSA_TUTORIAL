@@ -1,19 +1,19 @@
 #include <bits/stdc++.h>
 using namespace std;
 
-class Node
+class ListNode
 {
 public:
     int data;
-    Node *next;
+    ListNode *next;
 
-    Node(int data1, Node *next1)
+    ListNode(int data1, ListNode *next1)
     {
         data = data1;
         next = next1;
     }
 
-    Node(int data1)
+    ListNode(int data1)
     {
         data = data1;
         next = nullptr;
@@ -24,16 +24,16 @@ int main()
 {
     vector<int> arr = {1, 5, 2, 9, 0};
 
-    Node *head = new Node(12);
+    ListNode *head = new ListNode(12);
 
-    Node *mover = head;
+    ListNode *mover = head;
 
     cout << "The value stored is:  " << head->data << endl;
 
     int n = arr.size();
     for (int i = 0; i < n; i++)
     {
-        Node *temp = new Node(arr[i]);
+        ListNode *temp = new ListNode(arr[i]);
         mover->next = temp;
         mover = temp;
     }
