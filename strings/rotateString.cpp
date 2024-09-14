@@ -46,9 +46,9 @@ using namespace std;
         return solve(queOne, queTwo, size);
     }
 
-int main()
-{
-    string s = "abcde", goal = "cdeab";
+    int main()
+    {
+        string s = "abcde", goal = "cdeab";
 
-    cout << "Answer:  " << rotateString(s, goal);
+        // cout << "Answer:  " << rotateString(s, goal);
 }
