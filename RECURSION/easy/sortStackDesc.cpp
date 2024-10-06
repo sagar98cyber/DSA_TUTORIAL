@@ -2,9 +2,9 @@
 
 using namespace std;
 
-void insert( stack<int> &st, int n )
+void insert(stack<int> &st, int n)
 {
-    if (st.empty() || (st.top() <= n) )
+    if (st.empty() || (st.top() <= n))
     {
         st.push(n);
         return;
@@ -54,13 +54,12 @@ int main()
 
     sortStack(st);
 
+    printStack(st);
 
-    // printStack(st);
-
-    // while (!st.empty())
-    // {
+    while (!st.empty())
+    {
         cout << "Stack Top:  " << st.top() << endl;
-    // }
+    }
 
     return 0;
 }
