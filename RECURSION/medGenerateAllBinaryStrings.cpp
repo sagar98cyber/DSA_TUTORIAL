@@ -24,7 +24,7 @@ string genBinStr(int l, string t)
 
 int main()
 {
-    int l = 3;
+    int l = 5;
     genBinStr(l, "");
     // generateAllBinaryStrings(l);
     return 0;

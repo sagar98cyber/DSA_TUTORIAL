@@ -78,10 +78,10 @@ int main()
 
     vector<string> ans;
     ans = searchMaze(a, a.size());
-    cout << endl
-         << endl
-         << endl
-         << endl;
+    // cout << endl
+    //      << endl
+    //      << endl
+    //      << endl;
     for (auto i : ans)
     {
         cout << i << endl;
