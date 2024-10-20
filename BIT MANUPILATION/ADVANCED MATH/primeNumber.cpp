@@ -37,7 +37,7 @@ bool isPrime(int n)
 //         if ((n % i) == 0)
 //         {
 //             // cout << "Checking for: " << i << endl;
-//             if (isPrime(i) == true)                                ////////////////// TC:- O(sqrt(n))
+//             if (isPrime(i) == true)                                     ////////////////// TC:- O(sqrt(n))
 //             {
 //                 ans.push_back(i);
 //             }
@@ -79,7 +79,7 @@ bool isPrime(int n)
 vector<int> AllPrimeFactors(int n)
 {
     vector<int> ans;
-    for (int i = 2; i <= n; i++) ////////////////// TC:- O(sqrt(n))
+    for (int i = 2; i <= sqrt(n); i++) ////////////////// TC:- O(sqrt(n))
     {
         if ((n % i) == 0)
         {
@@ -101,14 +101,14 @@ vector<int> AllPrimeFactors(int n)
 
 int main()
 {
-    // vector<int> a = AllPrimeFactors(100);
+    vector<int> a = AllPrimeFactors(100);
     // vector<int> a = AllPrimeFactors(35);
     // cout << "Final Answer:  " << endl;
-    // for (auto i : a)
-    // {
-    // cout << i << endl;
-    // }
-    bool a = isPrime(7);
-    cout << "ans: " << a << endl;
+    for (auto i : a)
+    {
+    cout << i << endl;
+    }
+    // bool a = isPrime(7);
+    // cout << "ans: " << a << endl;
     return 1;
 }
