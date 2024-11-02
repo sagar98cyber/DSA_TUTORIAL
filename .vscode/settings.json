@@ -6,6 +6,8 @@
     "xstring": "cpp",
     "xtree": "cpp",
     "ostream": "cpp",
-    "cmath": "cpp"
+    "cmath": "cpp",
+    "xlocinfo": "cpp",
+    "xutility": "cpp"
   }
 }
