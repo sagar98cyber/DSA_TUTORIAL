@@ -31,175 +31,206 @@ public:
         back = NULL;
     }
 };
-
 class LRUCache
 {
+public:
+    Cache *head = NULL, *tail = NULL, *fP;
 
-    void bringBackCacheFront(Cache *ele)
+    int lim = 0, cCap = 0;
+
+    ///////////////////// PRINT THE CURRENT LL
+    void fPrinting()
     {
-        // Cache *temp1 = ele;
-        last = last->front;
-        first->front = ele;
-        ele->front = NULL;
-        ele->back = first;
-        first = ele;
+        // cout << "Just for printing!" << endl;
+        fP = head;
+        while (fP != NULL)
+        {
+
+            cout << fP->key << "    " << fP->data << endl;
+
+            // GOING TO THE NEXT NODE
+            fP = fP->back;
+        }
+        // cout << "After printing!" << endl;
     }
 
+    ///////////////////// WILL BE USED MOSTLY FOR GET OPERATION.
+    void bringTailFront()
+    {
+        // cout << "called bringTailFront()" << endl;
+        Cache *temp = tail, *tF = tail->front;
+        tail = tF;
+        tF->back = NULL;
+        temp->back = head;
+        temp->front = NULL;
+        head->front = temp;
+        head = temp;
+    }
+    ///////////////////// WILL BE USED MOSTLY FOR GET OPERATION.
     void bringCacheFront(Cache *ele)
     {
-        cout << "bringing the CACHE in FRONT:    --- " << ele->data << endl;
         Cache *temp1 = ele->front, *temp2 = ele->back;
-        // if (temp1 != NULL)
-        // {
-        temp1->back = temp2;
-        // }
-        // if (temp2 != NULL)
-        // {
-        temp2->back = temp1;
-        // }
-        //
-        first->front = ele;
+        // Bringing the CACHE FRONT
         ele->front = NULL;
-        ele->back = first;
-        first = ele;
+        ele->back = head;
+        head = ele;
+        // closing the gap
+        temp1->back = temp2;
+        temp2->front = temp1;
     }
 
-public:
-    int lim = 0, cCap = 0;
-    Cache *first = NULL, *last = NULL;
+    ///////////////////////// DECIDING FACTOR
+    void bringValueToTheFront(Cache *d)
+    {
+        if (d == head)
+        {
+            return;
+        }
+        else if (d == tail)
+        {
+            bringTailFront();
+        }
+        else
+        {
+            bringCacheFront(d);
+        }
+    }
+
     LRUCache(int capacity)
     {
         lim = capacity;
-        cout << lim << endl;
     }
 
     int get(int key)
     {
-
-        if (first == NULL)
+        if (head == NULL)
         {
             return -1;
         }
-
-        // int a = cCap/2;
-        Cache *temp = first;
-        cout << "First key: " << first->key << "  Key:  " << key << endl;
-        int ans = 0;
+        Cache *temp = head;
         while (temp != NULL)
         {
-            // cout << "Temp Key:  " << temp->key << " Key: " << key << endl;
+            // cout << "INSIDE WHILE LOOP:   " << temp->data << endl;
             if (temp->key == key)
             {
-                ans = temp->data;
-                if (temp == last)
+                int a = temp->data;
+                if (temp == head)
                 {
-                    // cout << "Bringing back to front: " << first->data << "  " << last->data << endl;
-                    bringBackCacheFront(temp);
-                    // cout << "Brought back to front: "     << first->data << "  " << last->data << endl;
+                    return a;
                 }
-                else if (temp != first)
-                {
-                    bringCacheFront(temp);
-                }
-                cout << "Changes in first:  " << first->data << "Last:  " << last->data << endl;
-                return ans;
+                bringValueToTheFront(temp);
+                return a;
             }
             temp = temp->back;
         }
-
         return -1;
     }
 
-    void put(int key, int value)
+    void put(int keyy, int value)
     {
-        if (first == NULL)
+        if (head == NULL)
         {
-            first = new Cache(key, value);
-            last = first;
+            head = new Cache(keyy, value);
+            tail = head;
             cCap++;
             return;
-            // cout << "createdFirst  " << last->key << endl;
         }
-        Cache *tD = first;
-        // while (tD != NULL)
-        // {
-        //     cout << "INSIDE WHILE LOOP:  " << key << "  " << tD->key << endl;
-        //     if (tD->key == key)
-        //     {
-        //         tD->data = value;
-        //         return;
-        //     }
-        //     tD = tD->back;
-        // }
+        Cache *d = head;
+        while (d != NULL)
+        {
+            // cout << "INSIDE WHILE LOOP --- PUT:   " << d->data << endl;
+            if (d->key == keyy)
+            {
+                d->data = value;
+                bringValueToTheFront(d);
+                // cout << "Before returning:  " << endl;
+                return;
+            }
+            // GOING TO THE NEXT NODE
+            d = d->back;
+        }
 
         if (cCap < lim)
         {
-            // cout << "cCap: " << cCap << endl;
-            Cache *temp = new Cache(value, key, NULL, first);
-            first->front = temp;
-            first = temp;
-            // cout << "Last:  " << last->data << "  First: " << first->data << endl;
+            cCap++;
+            Cache *n = new Cache(value, keyy, head);
+            head->front = n;
+            head = n;
+            // cout << "INSIDE --- PUT ---- IF CONDITION:   " << head->key << "   " << head->data << endl;
+            return;
         }
         else
         {
-            // cout << "In Final Cache: " << endl;
-            // create a new CACHE
-            Cache *temp = new Cache(value, key, NULL, first);
-            // bring it to the FRONT
-            first->front = temp;
-            first = temp;
-            // cout << "First data:  " << first->data << endl;
-            // deleting the LAST element
-            temp = last;
-            // cout << "Last data:  " << last->data << endl;
-            last = last->front;
-            last->back = NULL;
-            temp->front = NULL;
-            temp->back = NULL;
-            delete (temp);
-            // cout << "Back:  " << last->data << endl;
+            if (tail != head)
+            {
+                cout << "INSIDE PUT: PUTTING    - " << keyy << "  " << value << endl;
+                Cache *tDup = tail, *tFDup = tDup->front;
+                // cout << tDup->data << endl;
+                // string a = head->back == NULL ? "NULL" : "NOT NULL", b = tDup->back == NULL ? "NULL" : "NOT NULL";
+                // cout << a << endl;
+                // cout << tFDup->data << "   " << tDup->data << endl;
+                // // Disconnecting the tail from the LL
+                tail = tail->front;
+                // cout << "Flag 1" << tDup->data << "   " << tail->data << endl;
+                tail->back = NULL;
+                // cout << "Flag 2" << endl;
+                tDup->front = NULL;
+                // cout << "Flag 3" << endl;
+                // cout << tDup->data << "   " << tail->data << endl;
+                delete (tDup);
+                // cout << "Done deleting" << endl;
+                // Adding the new value to the front
+                Cache *nHead = new Cache(value, keyy, head);
+                head->front = nHead;
+                head = nHead;
+
+                // cout << "DONE PUTTING" << endl;
+            }
+            else
+            {
+                head->data = value;
+                head->key = keyy;
+            }
         }
-        cCap++;
-        // cout << "Capacity: " << cCap << endl;
     }
 };
 
 //////////////////////////////////
+
 // int main()
 // {
 //     int ans;
 //     LRUCache *obj = new LRUCache(2);
 //     ans = obj->get(2);
 //     cout << "Answer for 2: " << ans << endl;
-
 //     obj->put(2, 6);
-
+//     // obj->fPrinting();
 //     ans = obj->get(1);
 //     cout << "Answer for 1: " << ans << endl;
-
+//     cout << "BEFORE PUT 1,5" << endl;
 //     obj->put(1, 5);
-//     cout << "PUT 1,5" << endl;
+//     cout << "AFTER       PUT 1,5" << endl;
+//     // obj->fPrinting();
 //     obj->put(1, 2);
+//     // obj->fPrinting();
 //     cout << "PUT 1,2" << endl;
 //     ans = obj->get(1);
 //     cout << "Answer for 1: " << ans << endl;
-
 //     ans = obj->get(2);
 //     cout << "Answer for 2: " << ans << endl;
-
 //     return 1;
 // }
+
 ////////////////////////////////
 
 ////////////////////////////////
+
 // int main()
 // {
 //     int ans;
 //     LRUCache *obj = new LRUCache(1);
-
 //     ans = obj->get(0);
 //     cout << "Answer for 0: " << ans << endl;
-
 //     return 1;
 // }
 
@@ -207,25 +238,52 @@ public:
 
 ///////////////////////
 
+// int main()
+// {
+//     int ans;
+//     LRUCache *obj = new LRUCache(2);
+//     // cout << "Attempting 1,1" << endl;
+//     obj->put(1, 1);
+//     // cout << "INserted 1,1" << endl;
+//     obj->put(2, 2);
+//     // cout << "INserted 2,2" << endl;
+//     ans = obj->get(1);
+//     cout << "Answer for 1: " << ans << endl;
+//     obj->put(3, 3);
+//     // cout << "For get 2: " << endl;
+//     ans = obj->get(2);
+//     cout << "Answer for 2: " << ans << endl;
+//     obj->put(4, 4);
+//     ans = obj->get(1);
+//     cout << "Answer for 1: " << ans << endl;
+//     ans = obj->get(3);
+//     cout << "Answer for 3: " << ans << endl;
+//     ans = obj->get(4);
+//     cout << "Answer for 4: " << ans << endl;
+//     return 1;
+// }
+
+////////////////////////
+
+////////////////////////
+
 int main()
 {
     int ans;
-    LRUCache *obj = new LRUCache(2);
-    obj->put(1, 1);
-    obj->put(2, 2);
-    ans = obj->get(1);
-    cout << "Answer for 1: " << ans << endl;
-    obj->put(3, 3);
-    cout << "For get 2: " << endl;
+    LRUCache *obj = new LRUCache(1);
+
+    cout << "Attempting 2,1" << endl;
+    obj->put(2, 1);
+    cout << "INserted 2,1" << endl;
     ans = obj->get(2);
     cout << "Answer for 2: " << ans << endl;
-    obj->put(4, 4);
-    ans = obj->get(1);
-    cout << "Answer for 1: " << ans << endl;
+    cout << "Attempting 3,2" << endl;
+    obj->put(3, 2);
+    cout << "INserted 3,2" << endl;
+    ans = obj->get(2);
+    cout << "Answer for 2: " << ans << endl;
     ans = obj->get(3);
     cout << "Answer for 3: " << ans << endl;
-    ans = obj->get(4);
-    cout << "Answer for 4: " << ans << endl;
     return 1;
 }
 
