@@ -6,29 +6,29 @@ class Cache
 {
 public:
     int data, key;
-    Cache *front;
-    Cache *back;
+    Cache *prev;
+    Cache *next;
 
     Cache(int da, int ke, Cache *fr, Cache *ba)
     {
         key = ke;
         data = da;
-        front = fr;
-        back = ba;
+        prev = fr;
+        next = ba;
     }
     Cache(int da, int ke, Cache *ba)
     {
         key = ke;
         data = da;
-        front = NULL;
-        back = ba;
+        prev = NULL;
+        next = ba;
     }
     Cache(int da, int ke)
     {
         key = ke;
         data = da;
-        front = NULL;
-        back = NULL;
+        prev = NULL;
+        next = NULL;
     }
 };
 
@@ -38,6 +38,18 @@ public:
     Cache *tail = new Cache(-1, -1), *head = new Cache(-1, -1, tail), *fP;
     map<int, Cache *> mpp;
     int lim = 0, cCap = 0;
+
+    //////////////////////// Adding a new element to the LL
+    void addNewCacheFront(Cache *newNode)
+    {
+        int k = newNode->key, d = newNode->data;
+        Cache *t = head->next;
+        newNode->next = t;
+        newNode->prev = head;
+        t->prev = newNode;
+        head->next = newNode;
+        mpp.insert({k, newNode});
+    }
 
     ///////////////////// PRINT THE CURRENT LL
     void fPrinting()
@@ -50,7 +62,7 @@ public:
             cout << fP->key << "    " << fP->data << endl;
 
             // GOING TO THE NEXT NODE
-            fP = fP->back;
+            fP = fP->next;
         }
         // cout << "After printing!" << endl;
     }
@@ -62,13 +74,13 @@ public:
     // t1 <- tail
     void deleteTheLRU()
     {
-        Cache *t = tail->front;
+        Cache *t = tail->prev;
         if (t != head)
         {
             mpp.erase(t->key);
-            Cache *t1 = t->front;
-            t1->back = tail;
-            tail->front = t1;
+            Cache *t1 = t->prev;
+            t1->next = tail;
+            tail->prev = t1;
             delete (t);
         }
     }
@@ -77,7 +89,7 @@ public:
     void bringCacheFront(Cache *ele)
     {
         int key = ele->key, value = ele->data;
-        Cache *temp1 = ele->front, *temp2 = ele->back;
+        Cache *temp1 = ele->prev, *temp2 = ele->next;
         // DELETING THE CACHE
         delete (ele);
 
@@ -86,26 +98,15 @@ public:
         addNewCacheFront(nHead);
 
         // closing the gap
-        temp1->back = temp2;
-        temp2->front = temp1;
-    }
-
-    void addNewCacheFront(Cache *ele)
-    {
-        int k = ele->key, d = ele->data;
-        Cache *t = head->back;
-        t->front = ele;
-        head->back = ele;
-        ele->front = head;
-        ele->back = t;
-        mpp.insert({k, ele});
+        temp1->next = temp2;
+        temp2->prev = temp1;
     }
 
     LRUCache(int capacity)
     {
         lim = capacity;
-        head->back = tail;
-        tail->front = head;
+        head->next = tail;
+        tail->prev = head;
     }
 
     int get(int key)
@@ -155,7 +156,31 @@ public:
     }
 };
 
-//////////////////////////////////
+////////////////////////  FOURTH TEST CASE
+
+int main()
+{
+    int ans;
+    LRUCache *obj = new LRUCache(1);
+    // obj->fPrinting();
+    // cout << "Attempting 2,1" << endl;
+    obj->put(2, 1);
+    // cout << "INserted 2,1" << endl;
+    ans = obj->get(2);
+    cout << "Answer for 2: " << ans << endl;
+    // cout << "Attempting 3,2" << endl;
+    obj->put(3, 2);
+    // cout << "INserted 3,2" << endl;
+    ans = obj->get(2);
+    cout << "Answer for 2: " << ans << endl;
+    ans = obj->get(3);
+    cout << "Answer for 3: " << ans << endl;
+    return 1;
+}
+
+////////////////////////
+
+///////////////////////    THIRD TEST CASE
 
 // int main()
 // {
@@ -167,13 +192,13 @@ public:
 //     // obj->fPrinting();
 //     ans = obj->get(1);
 //     cout << "Answer for 1: " << ans << endl;
-//     cout << "BEFORE PUT 1,5" << endl;
+//     // cout << "BEFORE PUT 1,5" << endl;
 //     obj->put(1, 5);
-//     cout << "AFTER       PUT 1,5" << endl;
+//     // cout << "AFTER       PUT 1,5" << endl;
 //     // obj->fPrinting();
 //     obj->put(1, 2);
 //     // obj->fPrinting();
-//     cout << "PUT 1,2" << endl;
+//     // cout << "PUT 1,2" << endl;
 //     ans = obj->get(1);
 //     cout << "Answer for 1: " << ans << endl;
 //     ans = obj->get(2);
@@ -183,20 +208,20 @@ public:
 
 ////////////////////////////////
 
-////////////////////////////////
+///////////////////////    SECOND TEST CASE
 
-int main()
-{
-    int ans;
-    LRUCache *obj = new LRUCache(1);
-    ans = obj->get(0);
-    cout << "Answer for 0: " << ans << endl;
-    return 1;
-}
+// int main()
+// {
+//     int ans;
+//     LRUCache *obj = new LRUCache(1);
+//     ans = obj->get(0);
+//     cout << "Answer for 0: " << ans << endl;
+//     return 1;
+// }
 
 /////////////////////////
 
-///////////////////////
+///////////////////////    FIRST TEST CASE
 
 // int main()
 // {
@@ -229,30 +254,6 @@ int main()
 //     // obj->fPrinting();
 //     ans = obj->get(4);
 //     cout << "Answer for 4: " << ans << endl;
-//     return 1;
-// }
-
-////////////////////////
-
-////////////////////////
-
-// int main()
-// {
-//     int ans;
-//     LRUCache *obj = new LRUCache(1);
-//     obj->fPrinting();
-// cout << "Attempting 2,1" << endl;
-// obj->put(2, 1);
-// cout << "INserted 2,1" << endl;
-// ans = obj->get(2);
-// cout << "Answer for 2: " << ans << endl;
-// cout << "Attempting 3,2" << endl;
-// obj->put(3, 2);
-// cout << "INserted 3,2" << endl;
-// ans = obj->get(2);
-// cout << "Answer for 2: " << ans << endl;
-// ans = obj->get(3);
-// cout << "Answer for 3: " << ans << endl;
 //     return 1;
 // }
 
