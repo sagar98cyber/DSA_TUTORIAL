@@ -8,6 +8,8 @@
     "ostream": "cpp",
     "cmath": "cpp",
     "xlocinfo": "cpp",
-    "xutility": "cpp"
+    "xutility": "cpp",
+    "utility": "cpp",
+    "xlocnum": "cpp"
   }
 }

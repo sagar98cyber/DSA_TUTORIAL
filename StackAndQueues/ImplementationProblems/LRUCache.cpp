@@ -44,10 +44,13 @@ public:
     {
         int k = newNode->key, d = newNode->data;
         Cache *t = head->next;
+
         newNode->next = t;
         newNode->prev = head;
+
         t->prev = newNode;
         head->next = newNode;
+
         mpp.insert({k, newNode});
     }
 
