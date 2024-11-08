@@ -2,160 +2,86 @@
 
 using namespace std;
 
-class Cache
-{
-public:
-    int data, key;
-    Cache *prev;
-    Cache *next;
-
-    Cache(int da, int ke, Cache *fr, Cache *ba)
-    {
-        key = ke;
-        data = da;
-        prev = fr;
-        next = ba;
-    }
-    Cache(int da, int ke, Cache *ba)
-    {
-        key = ke;
-        data = da;
-        prev = NULL;
-        next = ba;
-    }
-    Cache(int da, int ke)
-    {
-        key = ke;
-        data = da;
-        prev = NULL;
-        next = NULL;
-    }
-};
-
 class LRUCache
 {
 public:
-    Cache *tail = new Cache(-1, -1), *head = new Cache(-1, -1, tail), *fP;
-    map<int, Cache *> mpp;
-    int lim = 0, cCap = 0;
-
-    //////////////////////// Adding a new element to the LL
-    void addNewCacheFront(Cache *newNode)
+public:
+    class node
     {
-        int k = newNode->key, d = newNode->data;
-        Cache *t = head->next;
-
-        newNode->next = t;
-        newNode->prev = head;
-
-        t->prev = newNode;
-        head->next = newNode;
-
-        mpp.insert({k, newNode});
-    }
-
-    ///////////////////// PRINT THE CURRENT LL
-    void fPrinting()
-    {
-        // cout << "Just for printing!" << endl;
-        fP = head;
-        while (fP != NULL)
+    public:
+        int key;
+        int val;
+        node *next;
+        node *prev;
+        node(int _key, int _val)
         {
-
-            cout << fP->key << "    " << fP->data << endl;
-
-            // GOING TO THE NEXT NODE
-            fP = fP->next;
+            key = _key;
+            val = _val;
         }
-        // cout << "After printing!" << endl;
-    }
+    };
 
-    ///////////////////// Delete the LRU
+    node *head = new node(-1, -1);
+    node *tail = new node(-1, -1);
 
-    // t1 -> t -> tail
-    // t1 -> tail
-    // t1 <- tail
-    void deleteTheLRU()
-    {
-        Cache *t = tail->prev;
-        if (t != head)
-        {
-            mpp.erase(t->key);
-            Cache *t1 = t->prev;
-            t1->next = tail;
-            tail->prev = t1;
-            delete (t);
-        }
-    }
-
-    ///////////////////// WILL BE USED MOSTLY FOR GET OPERATION.
-    void bringCacheFront(Cache *ele)
-    {
-        int key = ele->key, value = ele->data;
-        Cache *temp1 = ele->prev, *temp2 = ele->next;
-        // DELETING THE CACHE
-        delete (ele);
-
-        // Bringing the CACHE FRONT
-        Cache *nHead = new Cache(value, key);
-        addNewCacheFront(nHead);
-
-        // closing the gap
-        temp1->next = temp2;
-        temp2->prev = temp1;
-    }
+    int cap;
+    unordered_map<int, node *> m;
 
     LRUCache(int capacity)
     {
-        lim = capacity;
+        cap = capacity;
         head->next = tail;
         tail->prev = head;
     }
 
-    int get(int key)
+    void addnode(node *newnode)
     {
-        if (head == NULL)
-        {
-            return -1;
-        }
+        node *temp = head->next;
+        newnode->next = temp;
+        newnode->prev = head;
+        head->next = newnode;
+        temp->prev = newnode;
+    }
 
-        // GET THE VALUE FROM THE HASH MAP
-        if (mpp.find(key) != mpp.end())
+    void deletenode(node *delnode)
+    {
+        node *delprev = delnode->prev;
+        node *delnext = delnode->next;
+        delprev->next = delnext;
+        delnext->prev = delprev;
+    }
+
+    int get(int key_)
+    {
+        if (m.find(key_) != m.end())
         {
-            Cache *a = mpp[key];
-            int ans = a->data;
-            bringCacheFront(a);
-            return ans;
+            node *resnode = m[key_];
+            int res = resnode->val;
+            m.erase(key_);
+            deletenode(resnode);
+            addnode(resnode);
+            m[key_] = head->next;
+            return res;
         }
 
         return -1;
     }
 
-    void put(int keyy, int value)
+    void put(int key_, int value)
     {
-        // Check if the key exists
-        //   If yes then modify the value.
-        if ((mpp.find(keyy) != mpp.end()))
+        if (m.find(key_) != m.end())
         {
-            Cache *a = mpp[keyy];
-            a->data = value;
-            bringCacheFront(a);
-            return;
+            node *existingnode = m[key_];
+            m.erase(key_);
+            deletenode(existingnode);
+        }
+        if (m.size() == cap)
+        {
+            m.erase(tail->prev->key);
+            deletenode(tail->prev);
         }
 
-        // Can add new elements as there is still space left
-        if (cCap < lim)
-        {
-            Cache *nHead = new Cache(value, keyy);
-            addNewCacheFront(nHead);
-            cCap++;
-        }
-        else
-        {
-            deleteTheLRU();
-            Cache *nHead = new Cache(value, keyy);
-            addNewCacheFront(nHead);
-        }
+        addnode(new node(key_, value));
+        m[key_] = head->next;
     }
 };
 
