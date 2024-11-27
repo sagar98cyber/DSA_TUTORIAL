@@ -10,6 +10,7 @@
     "xlocinfo": "cpp",
     "xutility": "cpp",
     "utility": "cpp",
-    "xlocnum": "cpp"
+    "xlocnum": "cpp",
+    "xlocale": "cpp"
   }
 }
