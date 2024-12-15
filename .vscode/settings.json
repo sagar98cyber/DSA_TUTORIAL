@@ -11,6 +11,8 @@
     "xutility": "cpp",
     "utility": "cpp",
     "xlocnum": "cpp",
-    "xlocale": "cpp"
+    "xlocale": "cpp",
+    "system_error": "cpp",
+    "xtr1common": "cpp"
   }
 }
